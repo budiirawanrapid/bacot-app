@@ -51,3 +51,9 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+/**
+ * adds polyfill for global
+ * @see https://github.com/angular/angular-cli/issues/8160#issuecomment-386153833
+ */
+(window as any).global = (window as any).global ? (window as any).global : window;
