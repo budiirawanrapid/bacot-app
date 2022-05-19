@@ -18,22 +18,49 @@ Amplify.configure({
 })
 export class AppComponent {
   title = 'bacot-app';
+  session = false;
 
   user = {
     username: 'irawan@ischemaview.com',
     password: ''
   }
 
-  onSubmit() {
-    console.log('signin in...', Date.now());
-    const { username, password } = this.user;
-    Auth.signIn({ username: username.trim(), password })
-      .then(console.log)
-      .catch(error => console.log('error', error));
+  async ngOnInit() {
+    try {
+      const session = await Auth.currentSession();
+
+      if (session.isValid()) {
+        this.session = true;
+      }
+    } catch (error) {
+      console.log('check session', error);
+    }
   }
 
-  signOut() {
+  async onSubmit() {
+    console.log('signin in...', Date.now());
+    const { username, password } = this.user;
+
+    try {
+      const response = await Auth.signIn({username, password});
+      console.log('signInResponse', response);
+
+      /* ENABLE to TRIGGER REFRESH TOKEN
+      const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
+      console.log('user', user)
+       */
+
+      this.session = true;
+    } catch (error) {
+      console.error('error', error);
+    }
+
+  }
+
+  async signOut() {
     console.log('signing out...')
-    Auth.signOut()
+
+    await Auth.signOut()
+    this.session = false;
   }
 }

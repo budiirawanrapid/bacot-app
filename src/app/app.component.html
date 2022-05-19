@@ -4,7 +4,7 @@
   <input type="submit" value="Login">
 </form>
 
-<div>
+<div *ngIf="session">
   <button (click)="signOut()">Sign out</button>
 </div>
 
