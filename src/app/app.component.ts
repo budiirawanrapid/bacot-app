@@ -25,10 +25,15 @@ export class AppComponent {
   }
 
   onSubmit() {
-    console.log('logging in', Date.now());
+    console.log('signin in...', Date.now());
     const { username, password } = this.user;
     Auth.signIn({ username: username.trim(), password })
       .then(console.log)
       .catch(error => console.log('error', error));
+  }
+
+  signOut() {
+    console.log('signing out...')
+    Auth.signOut()
   }
 }
